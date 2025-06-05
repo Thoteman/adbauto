@@ -4,14 +4,20 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adbauto"
-version = "0.0.0"
+version = "0.0.1b1"
 description = "A Python ADB automation library for Android emulators like LDPlayer"
 authors = [{ name="Thomas Knoops" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
 dependencies = [
-    "pure-python-adb",
     "opencv-python",
     "numpy"
 ]
+
+[project.urls]
+Homepage = "https://github.com/ThomasKnoops/adbauto"
+Repository = "https://github.com/ThomasKnoops/adbauto"
 
 [tool.setuptools]
 packages = ["adbauto"]
