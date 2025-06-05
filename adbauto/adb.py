@@ -34,3 +34,7 @@ def get_ldplayer_device():
 def shell(device_id, command):
     """Run a shell command on the target device and return its output."""
     return run_adb_command(["-s", device_id, "shell", command])
+
+def pull(device_id, remote_path, local_path=None):
+    """Pull a file from the device to the local machine."""
+    return run_adb_command(["-s", device_id, "pull", remote_path, local_path])
