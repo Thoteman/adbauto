@@ -19,7 +19,7 @@ def list_devices():
     lines = output.splitlines()
     return [line.split()[0] for line in lines[1:] if "device" in line]
 
-def get_ldplayer_device():
+def get_emulator_device():
     """Start ADB and return the ID of the first connected device."""
     start_adb_server()
     devices = list_devices()
