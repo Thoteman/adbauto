@@ -7,6 +7,7 @@ __all__ = [
     "shell",
     "list_devices",
     "capture_screenshot",
+    "find_image",
     "tap_image",
     "tap_img_when_visible",
     "tap",
