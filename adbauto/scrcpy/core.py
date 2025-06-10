@@ -20,6 +20,8 @@ from .const import (
 )
 from .control import ControlSender
 
+import importlib.resources
+import pathlib
 
 class Client:
     def __init__(
@@ -141,9 +143,7 @@ class Client:
         Deploy server to android device
         """
         jar_name = "scrcpy-server.jar"
-        server_file_path = os.path.join(
-            os.path.abspath(os.path.dirname(__file__)), jar_name
-        )
+        server_file_path = get_scrcpy_server_jar_path()
         self.device.sync.push(server_file_path, f"/data/local/tmp/{jar_name}")
         commands = [
             f"CLASSPATH=/data/local/tmp/{jar_name}",
@@ -283,3 +283,9 @@ class Client:
         """
         for fun in self.listeners[cls]:
             fun(*args, **kwargs)
+
+def get_scrcpy_server_jar_path():
+    # This returns a context manager that yields a pathlib.Path to the file
+    with importlib.resources.path("adbauto.scrcpy", "scrcpy-server.jar") as jar_path:
+        return jar_path
+
