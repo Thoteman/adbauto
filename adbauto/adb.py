@@ -1,5 +1,6 @@
 # adbauto/adb.py
 import subprocess
+import time
 import adbauto.scrcpy as scrcpy
 
 def run_adb_command(args):
@@ -45,4 +46,6 @@ def start_scrcpy(device_id):
     scrcpyClient.max_fps = 5
     scrcpyClient.bitrate = 8000000
     scrcpyClient.start(daemon_threaded=True)
+    while scrcpyClient.last_frame is None:
+        time.sleep(0.1)
     return scrcpyClient
