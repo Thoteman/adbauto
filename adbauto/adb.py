@@ -49,3 +49,9 @@ def start_scrcpy(device_id):
     while scrcpyClient.last_frame is None:
         time.sleep(0.1)
     return scrcpyClient
+
+def stop_scrcpy(scrcpyClient):
+    """Stop the scrcpy client."""
+    scrcpyClient.stop()
+    print("scrcpy client stopped.")
+    return True
