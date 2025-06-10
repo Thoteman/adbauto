@@ -6,7 +6,7 @@ import time
 from adbauto.input import tap
 
 
-def find_image(screenshot, image_path, threshold=0.8):
+def find_image(screenshot, image_path, threshold=0.95):
     """
     Finds an image in the screenshot using OpenCV template matching in grayscale.
     Returns the center coordinates of the matched image if found, otherwise None.
@@ -30,27 +30,33 @@ def find_image(screenshot, image_path, threshold=0.8):
 
     return None
 
-def tap_image(device_id, screenshot, image_path, threshold=0.95):
+def tap_image(device_id, screenshot, image_path, threshold=0.95, delay=0.1, random_delay=False):
     """
     Finds a image in the screenshot and taps it if found.
     Returns the coordinates of the tap or None if not found.
     """
+    if random_delay:
+        delay = np.random.uniform(0.05, 2)
+
     center = find_image(screenshot, image_path, threshold)
     if center:
+        time.sleep(delay)
         tap(device_id, center[0], center[1])
         return center
     return None
 
-def tap_img_when_visible(device_id, scrcpyClient, image_path, threshold=0.95, timeout=10):
+def tap_img_when_visible(device_id, scrcpyClient, image_path, threshold=0.95, delay=0.1, random_delay=False, timeout=10):
     """
     Continuously checks for the image on the screen and taps it when found.
     Returns the coordinates of the tap or None if not found within timeout.
     """
     start_time = time.time()
     center = None
+    if random_delay:
+        delay = np.random.uniform(0.05, 2)
 
     while center is None:
-        center = tap_image(device_id, scrcpyClient.last_frame, image_path, threshold)
+        center = tap_image(device_id, scrcpyClient.last_frame, image_path, threshold, delay)
 
         if time.time() - start_time > timeout:
             break
