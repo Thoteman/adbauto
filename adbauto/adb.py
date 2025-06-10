@@ -1,5 +1,6 @@
 # adbauto/adb.py
 import subprocess
+import adbauto.scrcpy as scrcpy
 
 def run_adb_command(args):
     """Run an adb command and return its stdout as string."""
@@ -38,3 +39,10 @@ def shell(device_id, command):
 def pull(device_id, remote_path, local_path=None):
     """Pull a file from the device to the local machine."""
     return run_adb_command(["-s", device_id, "pull", remote_path, local_path])
+
+def start_scrcpy(device_id):
+    scrcpyClient = scrcpy.Client(device=device_id)
+    scrcpyClient.max_fps = 5
+    scrcpyClient.bitrate = 8000000
+    scrcpyClient.start(daemon_threaded=True)
+    return scrcpyClient
