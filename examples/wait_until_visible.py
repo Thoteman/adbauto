@@ -1,5 +1,5 @@
 from adbauto.adb import get_emulator_device, start_scrcpy
-from adbauto.screen import tap_image, tap_img_when_visible
+from adbauto.screen import tap_img_when_visible
 
 device_id = get_emulator_device()
 scrcpy = start_scrcpy(device_id)

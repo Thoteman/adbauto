@@ -30,6 +30,35 @@ def find_image(screenshot, image_path, threshold=0.95):
 
     return None
 
+def find_all_images(screenshot, image_path, threshold=0.95):
+    """
+    Finds all images in the screenshot using OpenCV template matching in grayscale.
+    Returns a list of the center coordinates of the matched images if found, otherwise None.
+    """
+    # Convert screenshot to grayscale
+    screenshot_gray = cv2.cvtColor(screenshot, cv2.COLOR_RGBA2GRAY)
+
+    # Load template and convert to grayscale
+    template = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    if template is None:
+        raise FileNotFoundError(f"Template image not found at {image_path}")
+
+    h, w = template.shape[:2]
+
+    # Perform template matching
+    result = cv2.matchTemplate(screenshot_gray, template, cv2.TM_CCOEFF_NORMED)
+
+    # Find all locations with matching score above threshold
+    locations = np.where(result >= threshold)
+
+    # Convert to list of center coordinates
+    matches = []
+    for pt in zip(*locations[::-1]):  # Switch x and y
+        center = (pt[0] + w // 2, pt[1] + h // 2)
+        matches.append(center)
+
+    return matches
+
 def tap_image(device_id, screenshot, image_path, threshold=0.95, delay=0.1, random_delay=False):
     """
     Finds a image in the screenshot and taps it if found.

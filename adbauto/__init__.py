@@ -9,6 +9,7 @@ __all__ = [
     "start_scrcpy",
     "stop_scrcpy",
     "find_image",
+    "find_all_images",
     "tap_image",
     "tap_img_when_visible",
     "tap",
