@@ -91,3 +91,13 @@ def tap_img_when_visible(device_id, scrcpyClient, image_path, threshold=0.95, de
             break
 
     return center
+
+def get_pixel_color(screenshot, x, y):
+    """
+    Returns the color of the pixel at (x, y) in the screenshot.
+    """
+    if x < 0 or y < 0 or x >= screenshot.shape[1] or y >= screenshot.shape[0]:
+        raise ValueError("Coordinates are out of bounds of the screenshot")
+
+    # Convert RGBA to RGB
+    return tuple(screenshot[y, x][:3])  # Return RGB values
