@@ -98,6 +98,8 @@ def get_pixel_color(screenshot, x, y):
     """
     if x < 0 or y < 0 or x >= screenshot.shape[1] or y >= screenshot.shape[0]:
         raise ValueError("Coordinates are out of bounds of the screenshot")
+    
+    img_rgb = cv2.cvtColor(screenshot, cv2.COLOR_BGR2RGB)
 
     # Convert RGBA to RGB
-    return tuple(screenshot[y, x][:3])  # Return RGB values
+    return tuple(img_rgb[y, x])  # Return RGB values
