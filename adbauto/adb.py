@@ -1,11 +1,21 @@
 # adbauto/adb.py
 import subprocess
 import time
+import sys
+import importlib.resources as resources
 import adbauto.scrcpy as scrcpy
+
+def get_adb_path():
+    """Gets the path to where the adb.exe is installed."""
+    if sys.platform == "win32":
+        return str(resources.files("adbauto").joinpath("bin/adb.exe"))
+    else:
+        raise RuntimeError("adbauto currently only bundles adb.exe for Windows")
 
 def run_adb_command(args):
     """Run an adb command and return its stdout as string."""
-    result = subprocess.run(["adb"] + args, capture_output=True, text=True)
+    adb_path = get_adb_path()
+    result = subprocess.run([adb_path] + args, capture_output=True, text=True)
     if result.returncode != 0:
         raise RuntimeError(f"ADB command failed: {' '.join(args)}\n{result.stderr.strip()}")
     return result.stdout.strip()
