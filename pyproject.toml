@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "adbauto"
 version = "1.0.1"
 description = "A Python ADB automation library for Android emulators."
-authors = [{ name="Thomas Knoops" }]
+authors = [{ name="Thoteman" }]
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.8"
@@ -16,8 +16,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ThomasKnoops/adbauto"
-Repository = "https://github.com/ThomasKnoops/adbauto"
+Homepage = "https://github.com/Thoteman/adbauto"
+Repository = "https://github.com/Thoteman/adbauto"
 
 [tool.setuptools]
 include-package-data = true
