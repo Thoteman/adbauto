@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adbauto"
-version = "1.0.2"
+version = "1.0.3"
 description = "A Python ADB automation library for Android emulators."
 authors = [{ name="Thoteman" }]
 readme = "README.md"

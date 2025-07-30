@@ -68,6 +68,7 @@ def start_scrcpy(device_id):
     scrcpyClient.max_fps = 5
     scrcpyClient.bitrate = 8000000
     scrcpyClient.start(daemon_threaded=True)
+    time.sleep(3)
     while scrcpyClient.last_frame is None:
         time.sleep(0.1)
     return scrcpyClient
