@@ -43,17 +43,33 @@ def list_devices():
     lines = output.splitlines()
     return [line.split()[0] for line in lines[1:] if "device" in line]
 
-def get_emulator_device():
-    """Start ADB and return the ID of the first connected device."""
-    start_adb_server()
-    devices = list_devices()
+def adb_connect_port(port):
+    """Connect to an ADB server on a specific port."""
+    try:
+        run_adb_command(["connect", f"localhost:{port}"])
+    except RuntimeError as e:
+        print(f"Failed to connect to ADB server on port {port}: {e}")
+        raise
 
-    if not devices:
-        raise RuntimeError("No devices/emulators found. Is LDPlayer running and ADB debugging enabled?")
-    
-    device_id = devices[0]
-    print(f"Connected to device: {device_id}")
-    return device_id
+def get_emulator_device(port=5555):
+    """Start ADB and return the ID of the first connected device."""
+    try:
+        start_adb_server()
+        devices = list_devices()
+
+        if not devices:
+            adb_connect_port(port)
+            devices = list_devices()
+
+        if not devices:
+            raise RuntimeError("No devices/emulators found. Is LDPlayer running and ADB debugging enabled?")
+        
+        device_id = devices[0]
+        print(f"Connected to device: {device_id}")
+        return device_id
+    except Exception as e:
+        print(f"Error in get_emulator_device: {e}")
+        raise e
 
 def shell(device_id, command):
     """Run a shell command on the target device and return its output."""
@@ -68,7 +84,6 @@ def start_scrcpy(device_id):
     scrcpyClient.max_fps = 5
     scrcpyClient.bitrate = 8000000
     scrcpyClient.start(daemon_threaded=True)
-    time.sleep(3)
     while scrcpyClient.last_frame is None:
         time.sleep(0.1)
     return scrcpyClient
